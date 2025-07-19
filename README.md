@@ -1,43 +1,113 @@
-# Taxi
-Searching and creating customer information
-פרויקט זיהוי לקוחות
-___
-להרצת הפרויקט בשרת מקומי יש להתקין גשר שמאזין לבקשות גלובליות ושולח אותם לפורט
-*http://localhost:5000/*
-___
-##### הוראות התקנת ngrok. (גשר)
-.
-## MacOS
-&nbsp;
-##### &#160;&#160;&#160;&#160;&#160;  ****Homebrew****
-```
-brew install ngrok
-```
-ואח״כ
+# מערכת ניהול לקוחות לשירותי מענה קולי - Flask
+
+מערכת לניהול שיחות נכנסות, לקוחות וקריאות, מבוססת Flask, עם תמיכה בקבלת הודעות מימות המשיח (API).
+
+---
+
+## 📦 דרישות מקדימות
+
+1. **Python 3.7+**
+2. **pip**
+3. **git** (להורדת הפרויקט למחשב)
+4. **ngrok** (לחשיפת השרת הלוקלי החוצה)
+
+---
+
+## 📥 התקנה
+
+```bash
+git clone https://github.com/a-true-man/Customer-identification.git
+cd Customer-identification
+pip install -r requirements.txt
 ```
 
-ngrok config add-authtoken 2vmOwEusjxaWAuK2Xcej28zAUB6_6C2v2UXoaXj8YWax5ghnY
+---
+
+## 🚀 הרצת המערכת
+
+```bash
+python app.py
 ```
-&nbsp;
-##### &#160;&#160;&#160;&#160;&#160;  ****Download****
+
+כניסה למערכת:
+ברירת מחדל: `http://127.0.0.1:5000`
+
+---
+
+## 🌐 חשיפת השרת הלוקלי לימות המשיח עם ngrok
+הוראות למחשבי mac
+
+### שלב 1: הורדת ngrok
+
+- הורד את ngrok: https://ngrok.com/download
+- עקוב אחר ההוראות לקבלת טוקן
+- חלץ את הקובץ לכונן שלך
+- הזן את פקודת החיבור (פעם אחת בלבד):
+
+```bash
+./ngrok config add-authtoken YOUR_TOKEN_HERE
+```
+
+### שלב 2: הפעלת ngrok
+- אחרי כל כיבוי
+```bash
+./ngrok http 5000
+```
+
+אתה תקבל קישור חיצוני כמו:
+
+```
+https://abc123.ngrok.io
+```
+
+---
+
+## 📡 חיבור לימות המשיח
+
+כדי לקבל שיחות נכנסות דרך ימות המשיח, עליך להגדיר "שלוחת API" במערכת ניהול של ימות המשיח.
+
+### כך תעשה זאת:
+
+1. היכנס לניהול קו → שלוחות → הוסף שלוחה חדשה
+2. הכנס להגדרות מתקדמות והגדר את השלוחה לסוג `API`
 
 
-[הורד עבור Apple Silicon](https://dashboard.ngrok.com/get-started/setup/macos)
-.
-[הורד עבור אינטל](https://dashboard.ngrok.com/get-started/setup/macos)
-ואח״כ בטרמינל
 ```
-ngrok config add-authtoken 2vmOwEusjxaWAuK2Xcej28zAUB6_6C2v2UXoaXj8YWax5ghnY
+type=api
 ```
-&nbsp;
-##### &#160;&#160;&#160;&#160;&#160;  ****הפעלה****
-הרץ בטרמינל הקרוב לביתך
-לקבלת תחום ארעית הרץ
+
+כך גם הגדר שתשלח קריאה לכתובת:
+(במקום ה https://example.com/YemotApi הגדר את הכתובת שקבלת בהפעלת ngrok)
+
 ```
-ngrok http http://localhost:5000
+api_link=https://example.com/YemotApi
 ```
-לקבלת תחום קבוע [כנס לngrok](https://dashboard.ngrok.com/get-started/setup/macos#:~:text=%D7%AA%D7%97%D7%95%D7%9D%20%D7%90%D7%A8%D7%A2%D7%99%D7%AA-,%D7%93%D7%95%D7%9E%D7%99%D7%99%D7%9F,-%D7%A1%D7%98%D7%98%D7%99)
-ובחר באפשרות תחום קבוע
-___
-אחרי ביצוע clone הרצת השרת תתבצע בפורט 5000
-http://localhost:5000/
+
+📌 **שים לב:** כתובת ה־ngrok משתנה בכל הפעלה, אלא אם תרכוש גרסה בתשלום עם דומיין קבוע, לעוד פרטים בקר באתר שלהם.
+
+3. בקובץ `app.py` יש מסלול `/api/ym` שמטפל בקריאות POST/GET מימות המשיח בעת כניסה לשלוחה שים לב לשנות אותו במידת הצורך.
+
+---
+
+## 🧪 בדיקות
+
+- פתח את הקישור של ngrok בדפדפן ובדוק שהאתר עולה
+- שלח קריאה מ־ימות המשיח וראה אם הנתונים נקלטים במסך הראשי/בלוג
+
+---
+
+## 📁 קבצים חשובים
+
+- `app.py` – קובץ הרצה של השרת
+- `templates/` – תבניות HTML
+- `static/` – קבצי CSS/JS
+- `requirements.txt` – תלות של ספריות
+- `README.md` – מדריך זה
+
+---
+
+## 🛠 תמיכה
+
+לשאלות או בעיות, תוכל לפנות אלי @איש-אמת בפורום מתמחים טופ או לפתוח Issue בגיטהאב.
+
+בהצלחה 🎉
