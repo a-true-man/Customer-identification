@@ -2,7 +2,7 @@
 
 מערכת לניהול שיחות נכנסות, לקוחות וקריאות, מבוססת Flask, עם תמיכה בקבלת הודעות מימות המשיח (API).
 
-![loop.png)
+![[loop.png](https://github.com/a-true-man/Customer-identification/blob/main/loop.png))
 
 ---
 
