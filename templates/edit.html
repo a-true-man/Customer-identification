@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="header">
+    <div class="title-actions">
+      <h1>עריכת לקוח</h1>
+      <div class=actions>
+        <a href="/" class="btn view-btn" title="חזרה לעמוד הראשי">
+          <span>🏠 חזרה</span>
+        </a>
+        <p></p> <!-- נועד לתת רווח בין הכפתור לטקסט -->
+      </div>
+    </div>
+  </div>
+
+  <form method="POST" class="form">
+    <label>שם:</label>
+    <input type="text" name="name" value="{{ client.name }}" required>
+
+    <label>טלפון:</label>
+    <input type="text" name="phone" value="{{ client.phone }}" readonly>
+
+    <label>סטטוס:</label>
+    <select name="status">
+      <option value="רגיל" {% if client.status == 'רגיל' %}selected{% endif %}>רגיל</option>
+      <option value="VIP" {% if client.status == 'VIP' %}selected{% endif %}>VIP</option>
+      <option value="חסום" {% if client.status == 'חסום' %}selected{% endif %}>חסום</option>
+    </select>
+
+    <label>הערות:</label>
+    <textarea name="notes">{{ client.notes }}</textarea>
+
+    <button type="submit" class="btn submit-btn">שמור שינויים</button>
+  </form>
+</div>
+
+<style>
+.container {
+  background-color: #f5ebea; /* Berry Cream */
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 16px;
+  direction: rtl;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form input,
+.form textarea,
+.form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.btn.submit-btn {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn.submit-btn:hover {
+  background-color: #4cae4c;
+}
+
+.btn.view-btn {
+  background-color: #d6eceb;
+  color: green;
+  padding: 8px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+</style>
+{% endblock %}

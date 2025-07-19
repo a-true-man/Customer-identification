@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="header">
+    <h1>מערכת לקוחות</h1>
+    <div class="header-buttons">
+      <a href="/add" class="btn">➕ הוסף לקוח</a>
+      <a href="/clients" class="btn">📋 כל הלקוחות</a>
+    </div>
+  </div>
+    <div class="card2">
+      <div>פאנל שליטה</div>
+        <div class="card3">
+          <a href="/add" class="refrash">⏹</a>
+          <a href="/settings" class="refrash">⏹</a>
+        </div>
+    </div>
+
+  <div class="split-view">
+    <!-- לקוחות אחרונים -->
+    <div class="sidebar" id="recentList">
+      <h3>היסטוריה</h3>
+      <!-- יתמלא ב-JS -->
+    </div>
+
+    <!-- שיחות נוכחיות -->
+    <div class="main" id="currentList">
+      <h3>שיחות נכנסות</h3>
+      <!-- יתמלא ב-JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // פונקציה להעתקת טקסט ללוח
+  function copy(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('המספר הועתק: ' + text);
+    });
+  }
+
+  // ניווט לעריכה/הוספה
+  function goToEdit(phone) {
+    window.location.href = '/add?phone=' + encodeURIComponent(phone);
+  }
+
+  async function fetchLists() {
+    // שיחות נוכחיות
+    let currRes = await fetch('/api/current_clients');
+    let current = currRes.ok ? await currRes.json() : [];
+    const currentDiv = document.getElementById('currentList');
+    if (current.length > 0) {
+      currentDiv.innerHTML = '<h3>שיחות נכנסות</h3>' + current.map(c => `
+        <div class="card">
+          <h4>שם: ${c.name || 'לא מזוהה'}</h4>
+          <p><strong>טלפון:</strong> ${c.phone}</p>
+          <p><strong>סטטוס:</strong> ${c.status || '-'}</p>
+          <p><strong>הערות:</strong> ${c.notes}</p>
+          <div class="actions">
+            <a onclick="copy('${c.phone}')" class="btn" title="העתק מספר">📋</a>
+                      ${c.name
+              ? `<a href="/edit/${c.phone}" class="btn" title="ערוך לקוח">✏️</a>`
+            : `<a href="#" onclick="goToEdit('${c.phone}')" class="btn" title="הוסף לקוח">📝</a>`}
+          </div>
+        </div>`).join('');
+    } else {
+      currentDiv.innerHTML = '<p class="loading-dots">ממתין לשיחה<span>.</span><span>.</span><span>.</span></p>';
+    }
+
+    // לקוחות אחרונים עם כפתור מותנה
+    let recRes = await fetch('/api/recent_clients');
+    let recent = recRes.ok ? await recRes.json() : [];
+    const recentDiv = document.getElementById('recentList');
+    if (recent.length > 0) {
+      // ניתן להוסיף  '<h3>היסטורית שיחות</h3>' + לפני ה recent.map
+      recentDiv.innerHTML = recent.map(c => `
+        <div class="card">
+          <span>${c.name || 'לא מזוהה'}</span>
+          <p>${c.phone}</p>
+          <div class="actions">
+            <a onclick="copy('${c.phone}')" class="btn" title="חייג">☎️</a>
+            ${c.name
+              ? `<a href="/edit/${c.phone}" class="btn" title="ערוך לקוח">✏️</a>`
+            : `<a href="#" onclick="goToEdit('${c.phone}')" class="btn" title="הוסף לקוח">📝</a>`}
+          </div>
+        </div>`).join('');
+    } else {
+      recentDiv.innerHTML = '<p>אין שיחות אחרונות</p>';
+    }
+  }
+
+  setInterval(fetchLists, 2000);
+  fetchLists();
+</script>
+{% endblock %}

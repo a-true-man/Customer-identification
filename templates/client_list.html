@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="header">
+    <div class="title-actions">
+      <h1>רשימת לקוחות</h1>
+      <div class="actions">
+        <a href="/" class="btn view-btn" title="חזרה לעמוד הראשי">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+          <span>🏠 חזרה</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <table class="client-table">
+    <thead>
+      <tr>
+        <th>שם</th>
+        <th>טלפון</th>
+        <th>סטטוס</th>
+        <th>הערות</th>
+        <th>פעולות</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clients %}
+      <tr>
+        <td>{{ client.name }}</td>
+        <td>{{ client.phone }}</td>
+        <td>{{ client.status }}</td>
+        <td>{{ client.notes }}</td>
+        <td>
+          <a href="/edit/{{ client.phone }}" class="btn edit-btn" title="ערוך לקוח">✏️</a>
+          <a href="/edit/{{ client.phone }}" class="btn edit-btn" title="התקשר">☎️</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .container {
+    background-color: #f5ebea; /* Berry Cream 1325P */
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 16px;
+    direction: rtl;
+  }
+  
+  .client-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .client-table th,
+  .client-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .client-table th {
+    background-color: #eee;
+  }
+  
+  .btn.edit-btn {
+    background-color: #d6eceb;
+    color: green;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  
+  .btn.edit-btn:hover {
+    background-color: #c2e3e0;
+  }
+  
+  .btn.view-btn {
+    background-color: #d6eceb;
+    color: green;
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  
+  .btn.view-btn:hover {
+    background-color: #c2e3e0;
+  }
+</style>
+{% endblock %}

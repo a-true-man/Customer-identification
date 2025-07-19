@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="header">
+    <div class="title-actions">
+      <h1>הוספת לקוח</h1>
+      <div class="actions">
+        <a href="/" class="btn view-btn" title="חזרה לעמוד הראשי">
+          <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+            <span>🏠 חזרה</span>
+        </a>
+        <p></p> <!-- נועד לתת רווח בין הכפתור לטקסט -->
+      </div>
+    </div>
+  </div>
+
+  <form method="POST" class="form">
+    <label>שם:</label>
+    <input type="text" name="name" required>
+
+    <label>טלפון:</label>
+    <!-- ממלאים אוטומטית את הפרמטר 'phone' אם קיים ב-URL -->
+    <input type="text" name="phone" value="{{ request.args.get('phone', '') }}" required>
+
+    <label>סטטוס:</label>
+    <select name="status">
+      <option value="רגיל">רגיל</option>
+      <option value="VIP">VIP</option>
+      <option value="חסום">חסום</option>
+    </select>
+
+    <label>הערות:</label>
+    <textarea name="notes"></textarea>
+
+    <button type="submit" class="btn add-btn">הוסף</button>
+  </form>
+</div>
+
+<style>
+.container {
+  background-color: #f5ebea; /* Berry Cream */
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 16px;
+  direction: rtl;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, select, textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+button.add-btn {
+  background-color: #d6eceb;
+  color: green;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button.add-btn:hover {
+  /* ללא transition כפי שביקשת */
+  background-color: #c2e3e0;
+}
+</style>
+{% endblock %}

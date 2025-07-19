@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h1>הגדרות</h1>
+  <div class="card2">
+    <div>הגדרות ניתוביה</div>
+      <div class="card3">
+        <a href="/add" class="refrash">🔄</a>
+        <a href="/settings" class="refrash">⏹</a>
+      </div>
+  </div>
+
+  <form id="settingsForm" method="POST">
+    <div class="setting-row">
+      <label for="lineNumber">מספר קו:</label>
+      <input type="text" id="lineNumber" name="lineNumber" class="short-input" pattern="\d*" inputmode="numeric">
+    </div>
+  
+    <div class="setting-row">
+      <label for="password">סיסמה:</label>
+      <input type="text" id="password" name="password" pattern="\d*" inputmode="numeric" class="short-input">
+    </div>
+  
+    <button type="submit" class="btn submit-btn">שמור שינויים</button>
+    <p id="errorMsg" style="color: red; display: none;"></p>
+  </form>
+  
+  <script>
+    document.getElementById("settingsForm").addEventListener("submit", function (e) {
+      const lineNumber = document.getElementById("lineNumber").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+  
+      // בדיקה האם יש לפחות 8 ספרות
+      if (!/^\d{8,}$/.test(lineNumber)) {
+        e.preventDefault();
+        errorMsg.textContent = "יש להזין לפחות 8 ספרות בשדה מספר קו.";
+        errorMsg.style.display = "block";
+        return;
+      }
+  
+      // בדיקה אם הסיסמה לא ריקה
+      if (password === "") {
+        e.preventDefault();
+        errorMsg.textContent = "נא להזין סיסמה.";
+        errorMsg.style.display = "block";
+        return;
+      }
+  
+      // אם הכול תקין – השגיאה נעלמת
+      errorMsg.style.display = "none";
+    });
+  </script>
+<div class=actions>
+    <a href="/" class="btn view-btn" title="חזרה לעמוד הראשי">
+      <span>🏠 חזרה</span>
+    </a>
+  </div>
+
+<style>
+  .setting-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    direction: rtl;
+    margin: 1rem 0;
+  }
+
+  .setting-row label {
+    font-weight: bold;
+  }
+
+  .short-input {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .btn.submit-btn {
+  background-color: #5cb85c;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom:20px;
+}
+</style>
+{% endblock %}
